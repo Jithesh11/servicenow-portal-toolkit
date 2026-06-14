@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "servicenow-portal-toolkit"
+version = "0.1.0"
+description = "MCP server for ServiceNow Service Portal — branding, analytics, and WCAG auditing for Claude Desktop"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "ServiceNow Portal Toolkit Contributors" }]
+keywords = ["servicenow", "mcp", "service-portal", "branding", "wcag", "claude", "anthropic"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "fastmcp>=2.0.0",
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "python-dotenv>=1.0.0",
+    "click>=8.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.1.0",
+    "mypy>=1.5.0",
+    "types-requests>=2.31.0",
+    "types-beautifulsoup4>=4.12.0",
+]
+
+[project.scripts]
+servicenow-portal-toolkit = "servicenow_portal_toolkit.setup_cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/servicenow-portal-toolkit"
+Repository = "https://github.com/yourusername/servicenow-portal-toolkit"
+Issues = "https://github.com/yourusername/servicenow-portal-toolkit/issues"
+Documentation = "https://github.com/yourusername/servicenow-portal-toolkit#readme"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["servicenow_portal_toolkit*"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
