@@ -152,11 +152,11 @@ Priority order when scraping a URL:
 
 This is v0.1 — a foundation for AI-driven ServiceNow Portal administration. Built with the **Employee Slate** era in mind, here's where this is heading:
 
-### 1. Legacy Portal → Employee Slate Migration Co-pilot
-ServiceNow's Employee Slate is redefining the employee experience with conversation-first design, My Canvas personalization, and AI-powered workflows. Every organization running Service Portal today will need to migrate. This tool will audit your existing portal estate, map old widgets to new Employee Slate components, identify pages that can be retired vs rebuilt, and generate a step-by-step migration plan — all through a conversation. What takes a consultant weeks, done in minutes.
+### 1. Legacy Portal → Employee Center → Employee Slate Migration Co-pilot
+Every organization running Service Portal or Employee Center today faces the same challenge: migrating to Employee Slate without breaking what's already working. This tool will audit your existing portal estate, map legacy widgets to Employee Slate components, identify pages that can be carried forward versus rebuilt, and generate a step-by-step migration plan — all through a conversation. What takes a consultant weeks, done in minutes.
 
 ### 2. Full Portal Orchestration from a Brief
-Give Claude a brief: *"Build an HR portal for 500 employees. Primary color matches our brand site. Needs a homepage, service catalog, knowledge base, and case submission page."* The MCP handles the entire build — portal record, pages, layouts, widget placement, branding, search configuration. Designed to power the rapid deployment Employee Slate demands.
+Give Claude a brief: *"Build an HR portal for 500 employees. Primary color matches our brand site. Needs a homepage, service catalog, knowledge base, and a case submission page."* The MCP handles the entire build — portal record, pages, layouts, widget placement, branding, and search configuration. Instant delivery. No manual clicks.
 
 ### 3. Search Intelligence Engine
 Employee Slate promises enterprise search across 100+ content sources — SharePoint, Google Drive, Slack, and more. Behind that promise is a configuration layer that someone has to build and maintain. This tool will audit search source configurations, detect gaps from zero-result analytics, suggest new sources to connect, auto-draft KB articles for content gaps, and tune relevancy — turning search from a setup task into a continuously improving engine.
