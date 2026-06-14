@@ -13,9 +13,9 @@ An **MCP server** that gives Claude Desktop four powerful tools for managing **S
 | Tool | What it does |
 |---|---|
 | `list_portals` | Fetch all portals from `sp_portal` — name, URL suffix, theme, status |
-| `apply_branding` | Scrape a website URL *or* accept manual hex/font values → push to `sp_theme` with WCAG AA check + before-snapshot |
-| `branding_score` | Read the current theme, score contrast ratios + CSS vars + font consistency out of 100 |
-| `portal_analytics` | Pull page views, search terms, zero-result searches, and mobile/desktop ratio from `pa_page_view` and `sp_log` |
+| `apply_branding` | Scrape a website URL *or* accept manual hex values → push SCSS vars to `sp_portal.css_variables` with WCAG AA check + before-snapshot |
+| `branding_score` | Read `css_variables` from the portal, score contrast ratios + SCSS var coverage out of 100 |
+| `portal_analytics` | Pull page views and search trends from `sp_log` — top pages, search terms, zero-result gaps |
 
 ---
 
@@ -90,23 +90,21 @@ Try these in Claude Desktop after setup:
 > "Apply the branding from https://www.mybrand.com to the 'sp' portal."
 
 **3. Audit current branding**
-> "Give me a branding score for the 'customer_portal' portal and tell me what to fix."
+> "Give me a branding score for the 'esc' portal and tell me what to fix."
 
 **4. Analyze portal usage**
-> "Show me the top search terms and content gaps for the 'sp' portal, then suggest UX improvements."
+> "Show me the top pages and search gaps for the 'esc' portal."
 
 ---
 
 ## Required ServiceNow Permissions
 
 The configured user needs **read** access to:
-- `sp_portal` — list portals
-- `sp_theme` — read theme for scoring / analytics
-- `pa_page_view` — page view analytics
-- `sp_log` — search log analytics
+- `sp_portal` — list portals, read css_variables for scoring
+- `sp_log` — page view and search analytics
 
 And **write** access to:
-- `sp_theme` — apply branding changes
+- `sp_portal` — apply branding changes to css_variables
 
 ---
 
@@ -119,7 +117,7 @@ servicenow-portal-toolkit/
 │   ├── server.py         ← FastMCP server + all 4 tools
 │   ├── setup_cli.py      ← setup / serve / check CLI commands
 │   ├── branding.py       ← web scraping, WCAG math, branding score
-│   └── analytics.py      ← portal usage aggregation
+│   └── analytics.py      ← portal usage aggregation from sp_log
 ├── pyproject.toml
 ├── .env.example
 └── .gitignore
@@ -131,10 +129,9 @@ servicenow-portal-toolkit/
 
 | Category | Max pts | What's checked |
 |---|---|---|
-| Primary vs White | 25 | WCAG 2.1 AA/AAA contrast |
-| Text vs Background | 25 | WCAG 2.1 AA/AAA contrast |
-| CSS Variable Coverage | 25 | 7 required `--css-vars` present |
-| Font Consistency | 25 | Custom `--font-family-base` declared |
+| Primary vs White | 40 | WCAG 2.1 AA/AAA contrast ratio |
+| Text vs Background | 40 | WCAG 2.1 AA/AAA contrast ratio |
+| SCSS Variable Coverage | 20 | 8 required `$scss-vars` present in css_variables |
 
 Score ≥ 90 → **A** · ≥ 75 → **B** · ≥ 60 → **C** · < 60 → **D**
 
@@ -151,28 +148,37 @@ Priority order when scraping a URL:
 
 ---
 
-## Publishing to PyPI
+## Roadmap
 
-```bash
-pip install build twine
-python -m build
-twine upload dist/*
-```
+This is v0.1 — a foundation for AI-driven ServiceNow Portal administration. Built with the **Employee Slate** era in mind, here's where this is heading:
+
+### 1. Legacy Portal → Employee Slate Migration Co-pilot
+ServiceNow's Employee Slate is redefining the employee experience with conversation-first design, My Canvas personalization, and AI-powered workflows. Every organization running Service Portal today will need to migrate. This tool will audit your existing portal estate, map old widgets to new Employee Slate components, identify pages that can be retired vs rebuilt, and generate a step-by-step migration plan — all through a conversation. What takes a consultant weeks, done in minutes.
+
+### 2. Full Portal Orchestration from a Brief
+Give Claude a brief: *"Build an HR portal for 500 employees. Primary color matches our brand site. Needs a homepage, service catalog, knowledge base, and case submission page."* The MCP handles the entire build — portal record, pages, layouts, widget placement, branding, search configuration. Designed to power the rapid deployment Employee Slate demands.
+
+### 3. Search Intelligence Engine
+Employee Slate promises enterprise search across 100+ content sources — SharePoint, Google Drive, Slack, and more. Behind that promise is a configuration layer that someone has to build and maintain. This tool will audit search source configurations, detect gaps from zero-result analytics, suggest new sources to connect, auto-draft KB articles for content gaps, and tune relevancy — turning search from a setup task into a continuously improving engine.
 
 ---
 
 ## Development
 
 ```bash
-git clone https://github.com/yourusername/servicenow-portal-toolkit
+git clone https://github.com/Jithesh11/servicenow-portal-toolkit
 cd servicenow-portal-toolkit
 pip install -e ".[dev]"
 ```
 
-Run tests:
+---
+
+## Publishing to PyPI
 
 ```bash
-pytest
+pip install build twine
+python -m build
+twine upload dist/*
 ```
 
 ---
